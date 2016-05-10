@@ -26,29 +26,16 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Busqueda</div>
 
-                            <div class="panel-body">
-                                <form class="form-inline">
-                                    <div class="form-group">
-
+                            <div class="panel-body">                                                                 
+                                <div class="form-group">
                                         <input type="text" class="form-control" id="" placeholder="Url">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Go!</button>
-                                </form><br>
-                               
-                                <div class="col-log-3 col-md-3 col-sm-3 col-xs-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="5" id="comment"></textarea>
-                                    </div>
                                 </div>
-                                <div class="col-log-9 col-md-9 col-sm-9 col-xs-12">
-                                    <div class="form-group">
-
-                                        <input type="text" class="form-control" id="noticia" placeholder="Titular de la Noticia"><br>
-                                        <input type="text" class="form-control" id="nombre_imagen" placeholder="Imagen"><br>
-                                        <button type="submit" class="btn btn-primary navbar-right" style="Position:Absolute; left:78%; top:78%">Agregar</button>
-                                    </div>                               
+                                <div id="form-inputs">
+                                    <button type="submit" data-role="add" class="btn btn-primary">Go!</button>
+                                    <div class="form-input-groups"></div>
                                 </div>
-                  
+                                   
+                                
                             </div>                         
                         </div>
                         <button type="button" class="btn btn-primary btn-sm btn-block">Guardar</button>
@@ -76,15 +63,7 @@
                                     <div class="form-group">
                                         <table class="table">
                                             <tr>
-                                                <td><input type="text" class="form-control input-sm"  placeholder="Titular de la Noticia"></td>                                          
-                                                <td><input type="checkbox" value=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="form-control input-sm"  placeholder="Titular de la Noticia"></td>                                          
-                                                <td><input type="checkbox" value=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="form-control input-sm"  placeholder="Titular de la Noticia"></td>                                          
+                                                <td><pre class="json" id="form-output"><code></code></pre></td>                                          
                                                 <td><input type="checkbox" value=""></td>
                                             </tr>
 
@@ -98,58 +77,58 @@
                 </div>
             </div>
         </div>
-<div id="form-inputs">
-<div class="form-input-groups"></div>
-    <a href="#" data-role="add" title="agregar campos">agregar campos</a>
-</div>
-<pre class="json" id="form-output"><code></code></pre>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script id="inputs-tmpl" type="text/template">
-    <div class="group">
-        <label>Cantidad</label><input type="text" name="cantidad">
-        <label>Nombre</label><input type="text" name="nombre">
-        <label>Precio</label><input type="text" name="precio">
-    </div>
-</script>
-<script type="text/javascript">
-    var formInputs, tmpl, params, inputParams, input;
+        
+        <script type="text/javascript" src="jquery.js"></script>
+        <script id="inputs-tmpl" type="text/template">
+            <div class="group"> 
+            <div class="col-log-3 col-md-3 col-sm-3 col-xs-12">
+                                    <div class="form-group">
+                                        <textarea name="Imagens" class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-log-9 col-md-9 col-sm-9 col-xs-12">
+                                    <div class="form-group">                                   
+                                <input type="text" name="Titulo" id="titulo" class="form-control"  placeholder="Titular de la Noticia"><br>
+                                <input type="text" name="Url" id="url" class="form-control"  placeholder="Titular de la Noticia"><br>
+                                  <button type="submit" data-role="add" class="btn btn-primary">Agregar!</button> 
+                                            </div>                               
+                                </div>    
+            </div>
+        </script>
+        <script type="text/javascript">
+var formInputs, tmpl, params, inputParams, input;
 
 formInputs = $('#form-inputs');
 
-formInputs.find('[data-role=add]').on('click', function() {
+formInputs.find('[data-role=add]').on('click', function () {
     tmpl = $('#inputs-tmpl').html();
     params = [];
 
     formInputs
-        .find('.form-input-groups')
-        .append(tmpl);
+            .find('.form-input-groups')
+            .append(tmpl);
 
     formInputs
-        .find('.form-input-groups > .group')
-        .each(function(i, group) {
-            inputParams = {};
+            .find('.form-input-groups > .group')
+            .each(function (i, group) {
+                inputParams = {};
 
-            $(group).find(':input').each(function(i, input) {
-                inputParams[$(input).attr('name')] = $(input).val();
+                $(group).find('#titulo, #url').each(function (i, input) {
+                    inputParams[$(input).attr('name')] = $(input).val();
+                });
+
+                params.push(inputParams);
             });
-
-            params.push(inputParams);
-        });
 
     $('#form-output code').html(JSON.stringify(params, undefined, 4));
 
     return false;
 });
-</script>
-
-
-
-
-
-    <div id="foter">
-    </div>
-    <!-- Fin Footer -->
-</div>                
+        </script>
+        <div id="foter">
+        </div>
+        <!-- Fin Footer -->
+    </div>                
 </body>
 </html>
 
