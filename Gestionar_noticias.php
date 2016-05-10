@@ -28,14 +28,33 @@
 
                             <div class="panel-body">                                                                 
                                 <div class="form-group">
+                                    <div class="col-log-8 col-md-8 col-sm-8 col-xs-12">
                                         <input type="text" class="form-control" id="" placeholder="Url">
+                                    </div>
+                                    <div class="col-log-4 col-md-4 col-sm-4 col-xs-12">
+                                        <button type="submit" data-role="add" class="btn btn-primary">Go!</button>
+                                    </div>
                                 </div>
-                                <div id="form-inputs">
-                                    <button type="submit" data-role="add" class="btn btn-primary">Go!</button>
-                                    <div class="form-input-groups"></div>
+                                <br>
+                                <div class="col-log-3 col-md-3 col-sm-3 col-xs-12">
+                                    <div class="form-group">
+                                        <br>
+                                        <textarea name="Imagens" class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
                                 </div>
-                                   
-                                
+                                <div class="col-log-9 col-md-9 col-sm-9 col-xs-12">
+                                    <div class="form-group">  
+                                        <br>
+                                        <div id="form-inputs">  
+                                            <div class="form-input-groups">
+                                                <input type="text" name="titulo" id="titulo" class="form-control"  placeholder="Titular de la Noticia"><br>
+                                                <input type="text" name="Url" id="url" class="form-control"  placeholder="Titular de la Noticia"><br>
+                                                <button type="submit" id="agregarCampo" class="btn btn-primary">Agregar!</button> 
+
+                                            </div>
+                                        </div> 
+                                    </div>                               
+                                </div>    
                             </div>                         
                         </div>
                         <button type="button" class="btn btn-primary btn-sm btn-block">Guardar</button>
@@ -60,15 +79,13 @@
                             <div class="panel-heading">Noticias Agregadas</div>
                             <div class="panel-body">
                                 <div class="col-log-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <table class="table">
-                                            <tr>
-                                                <td><pre class="json" id="form-output"><code></code></pre></td>                                          
-                                                <td><input type="checkbox" value=""></td>
-                                            </tr>
+                                    <div class="form-group">                  
+                                        <div id="contenedor">
+                                            <div class="added">
 
-                                        </table>      
-                                        <button type="submit" class="btn btn-danger btn-xs navbar-right">Eliminar</button>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>                             
                             </div>
@@ -76,67 +93,44 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <script type="text/javascript" src="jquery.js"></script>
-        <script id="inputs-tmpl" type="text/template">
-            <div class="group"> 
-            <div class="col-log-3 col-md-3 col-sm-3 col-xs-12">
-                                    <div class="form-group">
-                                        <textarea name="Imagens" class="form-control" rows="5" id="comment"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-log-9 col-md-9 col-sm-9 col-xs-12">
-                                    <div class="form-group">                                   
-                                <input type="text" name="Titulo" id="titulo" class="form-control"  placeholder="Titular de la Noticia"><br>
-                                <input type="text" name="Url" id="url" class="form-control"  placeholder="Titular de la Noticia"><br>
-                                  <button type="submit" data-role="add" class="btn btn-primary">Agregar!</button> 
-                                            </div>                               
-                                </div>    
+            <div id="foter">
             </div>
-        </script>
-        <script type="text/javascript">
-var formInputs, tmpl, params, inputParams, input;
+            <!-- Fin Footer -->
 
-formInputs = $('#form-inputs');
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
 
-formInputs.find('[data-role=add]').on('click', function () {
-    tmpl = $('#inputs-tmpl').html();
-    params = [];
+                var MaxInputs = 10; //Número Maximo de Campos
+                var contenedor = $("#contenedor"); //ID del contenedor
+                var AddButton = $("#agregarCampo"); //ID del Botón Agregar
+                var titulo = $("#titulo");//ID  noticia
 
-    formInputs
-            .find('.form-input-groups')
-            .append(tmpl);
+                //var x = número de campos existentes en el contenedor
+                var x = $("#contenedor div").length + 1;
+                var FieldCount = x - 1; //para el seguimiento de los campos
 
-    formInputs
-            .find('.form-input-groups > .group')
-            .each(function (i, group) {
-                inputParams = {};
-
-                $(group).find('#titulo, #url').each(function (i, input) {
-                    inputParams[$(input).attr('name')] = $(input).val();
+                $(AddButton).click(function (e) {
+                    if (x <= MaxInputs) //max input box allowed
+                    {
+                        FieldCount++;
+                        //agregar campo
+                        $(contenedor).append('<div><input type="text" name="mitexto[]" id="campo_' + FieldCount + '" class="form-control input-sm" placeholder=" ' + titulo.val() + '"/><a href="#" class="eliminar">&times;</a></div>');
+                        x++; //text box increment
+                    }
+                    return false;
                 });
 
-                params.push(inputParams);
+                $("body").on("click", ".eliminar", function (e) { //click en eliminar campo
+                    if (x > 1) {
+                        $(this).parent('div').remove(); //eliminar el campo
+                        x--;
+                    }
+                    return false;
+                });
             });
-
-    $('#form-output code').html(JSON.stringify(params, undefined, 4));
-
-    return false;
-});
         </script>
-        <div id="foter">
-        </div>
-        <!-- Fin Footer -->
-    </div>                
-</body>
+
+    </body>
 </html>
-
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
